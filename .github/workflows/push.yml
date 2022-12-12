@@ -74,6 +74,26 @@ jobs:
           org.opencontainers.image.source=${{ github.event.repository.clone_url }}
           org.opencontainers.image.created=${{ steps.prep.outputs.created }}
 
+    - name: Update Version
+      env:
+        VERSION: ${{ steps.generate_tag.outputs.new_tag }}
+      run: make bump-chart
+
+    # Commit back changes
+    - name: Commit files
+      run: |
+        git config --local user.email "github-root@stakater.com"
+        git config --local user.name "stakater-github-root"
+        git status
+        git add .
+        git commit -m "[skip-ci] Update artifacts" -a
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.STAKATER_GITHUB_TOKEN }}
+        branch: main
+
     - name: Comment on PR
       uses: mshick/add-pr-comment@v2
       env:
