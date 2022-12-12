@@ -62,21 +62,17 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-    - name: Generate image repository path
-      run: |
-        echo IMAGE_REPOSITORY=$(echo hussnain612/${{ github.repository }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
-
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
         context: .
         file: ${{ env.DOCKER_FILE_PATH  }}
-        pull: true
         push: true
-        build-args: GIT_ACCESS_TOKEN=${{ secrets.TOKEN }}
-        cache-to: type=inline
         tags: |
-          ${{ env.IMAGE_REPOSITORY }}:${{ steps.generate_tag.outputs.new_tag }}
+          ${{ github.actor }}/uptime-robot-operator:${{ steps.generate_tag.outputs.new_tag }}
+        labels: |
+          org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+          org.opencontainers.image.created=${{ steps.prep.outputs.created }}
 
     - name: Comment on PR
       uses: mshick/add-pr-comment@v2
