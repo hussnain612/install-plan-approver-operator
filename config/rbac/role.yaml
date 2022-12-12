@@ -13,7 +13,6 @@ rules:
   - get
   - list
   - patch
-  - update
   - watch
 - apiGroups:
   - operators.coreos.com
@@ -23,9 +22,3 @@ rules:
   - get
   - list
   - watch
-- apiGroups:
-  - operators.coreos.com
-  resources:
-  - subscriptions/status
-  verbs:
-  - get

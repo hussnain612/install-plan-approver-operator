@@ -36,8 +36,7 @@ type SubscriptionReconciler struct {
 }
 
 //+kubebuilder:rbac:groups=operators.coreos.com,resources=subscriptions,verbs=get;list;watch
-//+kubebuilder:rbac:groups=operators.coreos.com,resources=subscriptions/status,verbs=get
-//+kubebuilder:rbac:groups=operators.coreos.com,resources=installplans,verbs=get;list;watch;update;patch
+//+kubebuilder:rbac:groups=operators.coreos.com,resources=installplans,verbs=get;list;watch;patch
 
 func (r *SubscriptionReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := r.Log.WithValues("subscription", req.NamespacedName)

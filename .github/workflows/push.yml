@@ -96,6 +96,7 @@ jobs:
 
     - name: Comment on PR
       uses: mshick/add-pr-comment@v2
+      if: always()
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
       with:
