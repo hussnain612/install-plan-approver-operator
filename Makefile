@@ -253,3 +253,8 @@ catalog-build: opm ## Build a catalog image.
 .PHONY: catalog-push
 catalog-push: ## Push a catalog image.
 	$(MAKE) docker-push IMG=$(CATALOG_IMG)
+
+.PHONY: bump-chart
+bump-chart:
+	sed -i "s/^VERSION ?=.*/VERSION ?= $(VERSION)/" Makefile
+	sed -i "s/newTag:.*/newTag: v$(VERSION)/" config/manager/kustomization.yaml
