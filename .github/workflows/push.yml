@@ -69,7 +69,7 @@ jobs:
         file: ${{ env.DOCKER_FILE_PATH  }}
         push: true
         tags: |
-          ${{ github.actor }}/uptime-robot-operator:${{ steps.generate_tag.outputs.new_tag }}
+          ${{ github.actor }}/install-plan-approver-operator:${{ steps.generate_tag.outputs.new_tag }}
         labels: |
           org.opencontainers.image.source=${{ github.event.repository.clone_url }}
           org.opencontainers.image.created=${{ steps.prep.outputs.created }}
@@ -77,7 +77,7 @@ jobs:
     - name: Update Version
       env:
         VERSION: ${{ steps.generate_tag.outputs.new_tag }}
-      run: make bump-chart
+      run: make bump-version
 
     # Commit back changes
     - name: Commit files

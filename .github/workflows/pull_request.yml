@@ -63,7 +63,7 @@ jobs:
         push: true
         cache-to: type=inline
         tags: |
-          ${{ github.actor }}/uptime-robot-operator:${{ steps.generate_tag.outputs.GIT_TAG }}
+          ${{ github.actor }}/install-plan-approver-operator:${{ steps.generate_tag.outputs.GIT_TAG }}
         labels: |
           org.opencontainers.image.source=${{ github.event.repository.clone_url }}
           org.opencontainers.image.created=${{ steps.prep.outputs.created }}
