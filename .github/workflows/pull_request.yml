@@ -54,10 +54,6 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-    - name: Generate image repository path
-      run: |
-        echo IMAGE_REPOSITORY=$(echo hussnain612/${{ github.repository }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
-
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
@@ -65,10 +61,9 @@ jobs:
         file: ${{ env.DOCKER_FILE_PATH  }}
         pull: true
         push: true
-        build-args: GIT_ACCESS_TOKEN=${{ secrets.TOKEN }}
         cache-to: type=inline
         tags: |
-          ${{ env.IMAGE_REPOSITORY }}:${{ steps.generate_tag.outputs.GIT_TAG }}
+          ${{ github.actor }}/install-plan-approver-operator:${{ steps.generate_tag.outputs.GIT_TAG }}
         labels: |
           org.opencontainers.image.source=${{ github.event.repository.clone_url }}
           org.opencontainers.image.created=${{ steps.prep.outputs.created }}
@@ -79,6 +74,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        message-success: '@${{ github.actor }} Image is available for testing. `docker pull hussnain612/${{ github.repository }}:${{ steps.generate_tag.outputs.GIT_TAG }}`'
+        message-success: '@${{ github.actor }} Image is available for testing. `docker pull ${{ github.repository }}:${{ steps.generate_tag.outputs.GIT_TAG }}`'
         message-failure	: '@${{ github.actor }} Yikes! You better fix it before anyone else finds out! [Build](https://github.com/${{ github.repository }}/commit/${{ github.event.pull_request.head.sha }}/checks) has Failed!'
         allow-repeats: true
