@@ -52,10 +52,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate image repository path
-        run: |
-          echo IMAGE_REPOSITORY=$(echo ghcr.io/${{ github.event.repository.name }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
-
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
@@ -65,7 +61,7 @@ jobs:
           push: true
           cache-to: type=inline
           tags: |
-            ${{ env.IMAGE_REPOSITORY }}:${{ steps.generate_tag.outputs.GIT_TAG }}
+            ghcr.io/${{ github.repository }}:${{ steps.generate_tag.outputs.GIT_TAG }}
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.clone_url }}
             org.opencontainers.image.revision=${{ github.sha }}
