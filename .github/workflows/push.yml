@@ -62,7 +62,7 @@ jobs:
           file: ${{ env.DOCKER_FILE_PATH  }}
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}/install-plan-approver-operator:v${{ steps.generate_tag.outputs.new_tag }}
+            ghcr.io/${{ github.repository }}:v${{ steps.generate_tag.outputs.new_tag }}
           labels: |
             org.opencontainers.image.source=${{ github.event.repository.clone_url }}
 
