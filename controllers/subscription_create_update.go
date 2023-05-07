@@ -46,7 +46,7 @@ func (r *SubscriptionReconciler) handleSubscription(ctx context.Context, log log
 	installPlanNamespacedName.Namespace = installPlanNamespace
 	log = r.Log.WithValues("installPlan", installPlanNamespacedName)
 
-	err := r.Get(ctx, types.NamespacedName{Name: installPlanName, Namespace: installPlanNamespace}, installPlan)
+	err := r.Get(ctx, installPlanNamespacedName, installPlan)
 	if err != nil {
 		if errors.IsNotFound(err) {
 			// InstallPlan is not created yet
